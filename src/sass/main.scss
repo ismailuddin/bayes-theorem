@@ -1,0 +1,157 @@
+$light_gray: #eff0f3;
+$orange: #ff8e3c;
+$dark_gray: #0d0d0d;
+$gray: #2a2a2a;
+$red: #d9376e;
+$purple: #6246ea;
+
+$background: $light_gray;
+$dark_colour: $dark_gray;
+$body_text: $gray;
+$accent: $orange;
+$tertiary: $red;
+
+@import url('https://fonts.googleapis.com/css?family=Bangers|Kalam:300,500,700&display=swap');
+
+body {
+	padding: 25px 0px;
+	margin: 0;
+	background-color: $background;
+}
+
+.App {
+	padding: 0;
+
+	@media (min-width: 768px) {
+		padding: 0px 15%;
+	}
+
+	&-header {
+		padding: 10px 0px;
+
+		.logo {
+			font-family: 'Bangers';
+			font-size: 3.5rem;
+			color: $dark_colour;
+			text-shadow: 3px 3px 0px rgba($orange, 0.2);
+		}
+	}
+}
+
+p {
+	color: $body_text;
+	font-family: 'Kalam';
+	font-size: 1.8rem;
+	line-height: 2.4rem;
+
+	& > b {
+		font-weight: 700;
+		font-style: normal;
+	}
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Bangers';
+	color: $dark_colour;
+	letter-spacing: 1px;
+
+	&.heading {
+		font-size: 2em;
+		text-shadow: 2px 2px rgba($purple, 0.2);
+	}
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin-bottom: 25px;
+}
+
+.column {
+	flex-basis: 100%;
+}
+
+@media screen and (min-width: 800px) {
+	.column {
+		flex: 1;
+	}
+}
+
+@media screen and (min-width: 800px) {
+	._25 {
+		flex: 2.5;
+    }
+    ._50 {
+        flex: 5.0;
+    }
+	._55 {
+		flex: 5.5;
+	}
+	._20 {
+		flex: 2;
+	}
+}
+
+section {
+	margin: 10px 0px;
+}
+
+label {
+	font-family: serif;
+	font-weight: 300;
+	font-size: 1.4rem;
+	margin-right: 20px;
+}
+
+input[type="text"],
+input[type="number"] {
+	border-radius: 3px;
+	background-color: white;
+	outline: none;
+	font-size: 1.8rem;
+	box-shadow: none;
+	border: none;
+	padding: 10px 15px;
+}
+
+
+.yLabel, .xLabel {
+	font-size: 1.3em;
+	font-family: serif;
+}
+
+.probabilityChart {
+	display: block;
+}
+
+span {
+	&.eventA {
+		white-space: nowrap;
+		background-color: $orange;
+		padding: 0px 10px;
+		margin: 0px 5px;
+		border-radius: 50px;
+		color: white;
+	}
+	
+	&.eventNotA {
+		white-space: nowrap;
+		background-color: $red;
+		padding: 0px 10px;
+		margin: 0px 5px;
+		border-radius: 50px;
+		color: white;
+		
+	}
+	
+	&.eventB {
+		background-color: $purple;
+		white-space: nowrap;
+		padding: 0px 10px;
+		margin: 0px 5px;
+		border-radius: 50px;
+		color: white;
+
+	}
+}
