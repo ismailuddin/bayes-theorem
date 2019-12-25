@@ -50,13 +50,25 @@ p {
 	}
 }
 
+a {
+	text-decoration: none;
+	outline: none;
+	color: $red;
+	transition: color 0.3s ease-in-out;
+	&:active, &:hover, &:focus {
+		outline: none;
+		color: lighten($red, 10%);
+
+	}
+}
+
 h1, h2, h3, h4, h5, h6 {
 	font-family: 'Bangers';
 	color: $dark_colour;
 	letter-spacing: 1px;
 
 	&.heading {
-		font-size: 2em;
+		font-size: 2.5em;
 		text-shadow: 2px 2px rgba($purple, 0.2);
 	}
 }
@@ -65,7 +77,7 @@ h1, h2, h3, h4, h5, h6 {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	margin-bottom: 25px;
+	margin-bottom: 10px;
 }
 
 .column {
@@ -81,12 +93,18 @@ h1, h2, h3, h4, h5, h6 {
 @media screen and (min-width: 800px) {
 	._25 {
 		flex: 2.5;
-    }
+	}
+	._33 {
+		flex: 3.3;
+	}
     ._50 {
         flex: 5.0;
     }
 	._55 {
 		flex: 5.5;
+	}
+	._66 {
+		flex: 6.6;
 	}
 	._20 {
 		flex: 2;
@@ -115,6 +133,14 @@ input[type="number"] {
 	padding: 10px 15px;
 }
 
+small {
+	display: block;
+	font-family: 'Kalam';
+	margin-top: 5px;
+	font-size: 1.2em;
+	color: $gray;
+}
+
 
 .yLabel, .xLabel {
 	font-size: 1.3em;
@@ -123,6 +149,7 @@ input[type="number"] {
 
 .probabilityChart {
 	display: block;
+	text-align: center;
 }
 
 span {
@@ -152,6 +179,26 @@ span {
 		margin: 0px 5px;
 		border-radius: 50px;
 		color: white;
+
+	}
+}
+
+.equation {
+	&-numerator {
+		border-bottom: 1px solid #000;
+		margin-right: 25px;
+		& > p {
+			margin: 0;
+			text-align: center;
+		}
+		
+	} 
+	
+	&-denominator {
+		& > p {
+			text-align: center;
+			margin: 0;
+		}
 
 	}
 }

@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import './sass/main.scss';
 import ProbabilityBox from './components/ProbabilityBox';
 import VisualEquation from './components/VisualEquation';
-import PropTypes from 'prop-types'
 const MathJax =  require( 'react-mathjax2');
 
 export default class App extends Component {
-    static propTypes = {
-        prop: PropTypes
-    }
 
     state = {
         eventA: 0.5,
@@ -34,7 +30,7 @@ export default class App extends Component {
 
     render() {
         const bayesTheorem = `P(A|B) = \\frac{ P(A)\\times P(B|A)}{P(B)}`;
-        // const pB = `P(B) = P(A) \\times P(B|A) + P(¬A) \\times P(B|¬A)`;
+        const pB = `P(B) = P(A) \\times P(B|A) + P(¬A) \\times P(B|¬A)`;
         const pAB = this.state.eventA * this.state.eventBA / ((this.state.eventA * this.state.eventBA)+(this.state.eventNotA * this.state.eventBNotA));
         return (
             <div>
@@ -46,11 +42,11 @@ export default class App extends Component {
                     </header>
                     <section>
                         <p>
-                            Inspired by 3Blue1Brown's video on  <b>Bayes' Theorem</b>, this website provides an interactive way to visualise and understand Baye's Theorem.
+                            Inspired by <a href="https://www.youtube.com/watch?v=HZGCoVF3YvM">3Blue1Brown's video</a> on <b>Bayes' Theorem</b>, this website provides an interactive way to visualise and understand Baye's Theorem.
                         </p>
                         <hr/>
                         <p>
-                            <b>Baye's Theorem</b> allows us to calculate the probability of an event (A) happening (or a hypothesis being true), given another event (B) having occurred (or some new provided evidence).
+                            <b>Baye's Theorem</b> allows us to calculate the probability of an <span className="eventA">event (A)</span> happening (or a <span className="eventA">hypothesis</span> being true), given another <span className="eventB">event (B)</span> having occurred (or some new provided <span className="eventB">evidence</span> ).
                         </p>
                         <MathJax.Context input='tex'>
                             <div style={{fontSize: '1.6em'}}>
@@ -59,6 +55,7 @@ export default class App extends Component {
                                 </MathJax.Node>
                             </div>
                         </MathJax.Context>
+                        
                     </section>
                     <section className="white">
 
@@ -83,15 +80,28 @@ export default class App extends Component {
                                     type="number" name="event_not_a" id="event_not_a" value={this.state.eventNotA}
                                     disabled
                                     />
+                                <small>
+                                    The <b>¬</b> symbol in P(¬A) means the probability of A not happening.
+                                </small>
                             </div>
                         </div>
+                        <ProbabilityBox
+                            eventA={this.state.eventA}
+                            eventB={this.state.eventB}
+                            eventBA={this.state.eventBA}
+                            eventBNotA={this.state.eventBNotA}
+                        />
+                        <p>
+                            In the probability box, the x-axis represents the dimension along which the probability of <span className="eventA">event A</span> is expressed.
+                        </p>
                         <h1 className="heading">Step 2</h1>
                         <p>
-                            We now provide information to update our probabilities, that being the probability of <span className="eventB">event B</span> occuring, given <span className="eventA">event A</span> has taken place; as well as the probability of <span className="eventB">event B</span> occurring, given <span className="eventA">event A</span> <b>did not</b> take place.
+                            Since Bayes' Theorem provides a way to re-calculate our probabilities given some new evidence, we will now provide this new information. This new <span className="eventB">evidence</span> is the probability of <span className="eventB">event B</span> occuring.
                         </p>
                         <p>
-                            <span className="eventB">Event B</span> is sometimes referred to as the evidence, thus P(B|A) can be read as the probability of the evidence occuring given the hypothesis is true, whilst P(B|¬A) is the probability of the evidence occuring given the hypothesis is not true.
+                            The probability of <span className="eventB">event B</span> is often broken down by considering the probability of <span className="eventB">event B</span> in the cases <span className="eventA">event A</span> had taken place, along with the probability of <span className="eventB">event B</span> taking place, given <span className="eventNotA">event ¬A</span> occurred (i.e. <span className="eventA">event A</span> did not take place).
                         </p>
+                        
                         <div className="row">
                             <div className="column _50">
                                 <label htmlFor="fp">P(B|A)</label>
@@ -108,6 +118,9 @@ export default class App extends Component {
                                     />
                             </div>
                         </div>
+                        <p>
+                            By adjusting the two probabilities, we can see the boxes change height, as the y-axis represents this newly provided probability information (or <span className="eventB">evidence</span>.)
+                        </p>
                     </section>
                     <section>
                         <div className="row">
@@ -117,19 +130,28 @@ export default class App extends Component {
                                     eventB={this.state.eventB}
                                     eventBA={this.state.eventBA}
                                     eventBNotA={this.state.eventBNotA}
-
                                 />
 
                             </div>
                         </div>
+                        <p>
+                            To use these newly provided probabilities, we must multiply them with our initial probabilities (the probability of <span className="eventA">event A</span> and of <span className="eventNotA">event ¬A</span>). This is in fact simply the area of the two shaded boxes. The combined area of those two boxes is the total probability of <span className="eventB">event B</span> occuring, or the <span className="eventB">evidence</span>.
+                        </p>
+                        <MathJax.Context input='tex'>
+                            <div style={{fontSize: '1.6em'}}>
+                                <MathJax.Node>
+                                    {pB}
+                                </MathJax.Node>
+                            </div>
+                        </MathJax.Context>
                     </section>
                     <section>
                         <h1 className="heading">Step 3</h1>
                         <p>
-                            Using the evidence provided (i.e. <span className="eventB">event B</span>), we can calculate the new probabilities of our hypothesis being true. These are simply the area of the shaded boxes, which are calculated by multiplying the dimensions of the boxes, which happen to be probabilities.
+                            Using the evidence provided (i.e. <span className="eventB">event B</span>), we can calculate the updated probability of <span className="eventA">event A</span> taking place, given <span className="eventB">event B</span> occurred i.e. P(A|B). This is in fact the ratio of the probabilities of <span className="eventA">event B</span> occuring given <span className="eventA">event A</span> took place, to the total probability of <span className="eventB">event B</span> occuring.
                         </p>
                         <p>
-                            The equation is shown below in graphical form, which illustrates the concept that the P(A|B) is equal to the ratio of the <span className="eventA">orange</span> box to combined the probabilities.
+                            This ratio, or the Bayes' Theorem equation, is shown below in a visual form:
                         </p>
                         <div className="row">
                             <div className="column">
@@ -148,8 +170,36 @@ export default class App extends Component {
                             <div className="column">
                                 <h1 className="heading">Step 4</h1>
                                 <p>
-                                    The value of P(A|B) is thus {this.state.eventA} * {this.state.eventBA} / (({this.state.eventA} * { this.state.eventBA})+({this.state.eventNotA} * {this.state.eventBNotA})) = {(pAB * 100).toFixed(2)} %
+                                    The value of P(A|B) is thus:
                                 </p>
+                                <div className="row">
+                                    <div className="column _33">
+                                        <div className="row">
+                                            <div className="column equation equation-numerator">
+                                                <p>
+                                                    <span className="eventA">{this.state.eventA}</span>  * {this.state.eventBA}
+
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="column equation equation-denominator">
+                                                <p>
+                                                    <span className="eventB">
+                                                        (({this.state.eventA} * { this.state.eventBA})+({this.state.eventNotA} * {this.state.eventBNotA}))
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="column _66">
+                                        <div className="column equation equation-rhs">
+                                            <p>
+                                                = {(pAB * 100).toFixed(2)} %
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </section>

@@ -13,7 +13,8 @@ export interface Datum {
     x: number,
     y: number,
     colour: string,
-    xLabel: string
+    xLabel: string,
+    yLabel: string
 }
 
 export interface State {
@@ -40,14 +41,16 @@ export default class ProbabilityBox extends Component<Props, State> {
                 x: 0,
                 y: 0,
                 colour: '',
-                xLabel: 'P(A)'
+                xLabel: 'P(A)',
+                yLabel: 'P(B|A)'
             },
             {
                 x0: 0,
                 x: 0,
                 y: 0,
                 colour: '',
-                xLabel: 'P(¬A)'
+                xLabel: 'P(¬A)',
+                yLabel: 'P(B|¬A)'
             }
         ]
     }
@@ -81,14 +84,16 @@ export default class ProbabilityBox extends Component<Props, State> {
                     x: this.props.eventA,
                     y: this.props.eventBA,
                     colour: '#ff8e3c',
-                    xLabel: 'P(A)'
+                    xLabel: 'P(A)',
+                    yLabel: 'P(B|A)'
                 },
                 {
                     x0: this.props.eventA,
                     x: (1 - this.props.eventA),
                     y: this.props.eventBNotA,
                     colour: '#d9376e',
-                    xLabel: 'P(¬A)'
+                    xLabel: 'P(¬A)',
+                    yLabel: 'P(B|¬A)'
                 }
             ]
         }, () => {
@@ -104,14 +109,16 @@ export default class ProbabilityBox extends Component<Props, State> {
                         x: this.props.eventA,
                         y: this.props.eventBA,
                         colour: '#ff8e3c',
-                        xLabel: 'P(A)'
+                        xLabel: 'P(A)',
+                        yLabel: 'P(B|A)'
                     },
                     {
                         x0: this.props.eventA,
                         x: (1 - this.props.eventA),
                         y: this.props.eventBNotA,
                         colour: '#d9376e',
-                        xLabel: 'P(¬A)'
+                        xLabel: 'P(¬A)',
+                        yLabel: 'P(B|¬A)'
                     }
                 ]
             }, () => {
@@ -141,23 +148,33 @@ export default class ProbabilityBox extends Component<Props, State> {
             .attr('height', this.height)
             .attr('fill', '#fefefe')
         
-        this.svg.append("text")             
-            .attr("transform", "rotate(-90)")
-            .attr("y", 0 - this.margin.left)
-            .attr("x", 0 - (this.height / 2))
-            .attr("dy", "1em")
-            .style("text-anchor", "middle")
-            .attr('class', 'yLabel')
-            .text("P(B | A)");
+        // this.svg.append("text")             
+        //     .attr("transform", "rotate(-90)")
+        //     .attr("y", 0 - this.margin.left)
+        //     .attr("x", 0 - (this.height / 2))
+        //     .attr("dy", "1em")
+        //     .style("text-anchor", "middle")
+        //     .attr('class', 'yLabel')
+        //     .text("P(B | A)");
         
-        this.svg.append("text")             
-            .attr("transform", "rotate(-90)")
-            .attr("y", this.width + 5)
-            .attr("x", 0 - (this.height / 2))
-            .attr("dy", "1em")
-            .style("text-anchor", "middle")
+        // this.svg.append("text")             
+        //     .attr("transform", "rotate(-90)")
+        //     .attr("y", this.width + 5)
+        //     .attr("x", 0 - (this.height / 2))
+        //     .attr("dy", "1em")
+        //     .style("text-anchor", "middle")
+        //     .attr('class', 'yLabel')
+        //     .text("P(B | ¬ A)");
+
+        this.svg.selectAll('.yLabel')
+            .data(this.state.data)
+            .enter()
+            .append('text')
             .attr('class', 'yLabel')
-            .text("P(B | ¬ A)");
+            .attr('transform', 'rotate(-90)')
+            .attr('x', (d: Datum) => -1 * this.yScale(1 - d.y) - 80)
+            .attr('y', (d: Datum, i: number) => -1 * this.margin.left / 2 + ( i * (this.width + this.margin.left + 10)))
+            .text((d: Datum) => d.yLabel);
 
         this.svg.selectAll('.xLabel')
             .data(this.state.data)
@@ -197,18 +214,22 @@ export default class ProbabilityBox extends Component<Props, State> {
             .ease(d3.easeBounceOut)
             .duration(1500);
     
-        const bars = d3.selectAll('.bar')
+        const bars = this.svg.selectAll('.bar')
             .data(this.state.data);
 
-        const fixedBars = d3.selectAll('.fixedBar')
+        const fixedBars = this.svg.selectAll('.fixedBar')
             .data(this.state.data);
 
-        const xLabels = d3.selectAll('.xLabel')
+        const xLabels = this.svg.selectAll('.xLabel')
+            .data(this.state.data);
+
+        const yLabels = this.svg.selectAll('.yLabel')
             .data(this.state.data);
 
         bars.exit().remove();
         fixedBars.exit().remove();
         xLabels.exit().remove();
+        yLabels.exit().remove();
 
         bars
             .transition(transition)
@@ -230,6 +251,10 @@ export default class ProbabilityBox extends Component<Props, State> {
         xLabels
             .transition(transition)
             .attr("x", (d: Datum) => this.xScale(d.x0) + 10);
+
+        yLabels
+            .transition(transition)
+            .attr('x', (d: Datum) => -1 * this.yScale(1 - d.y) - 80);
 
     }
 
