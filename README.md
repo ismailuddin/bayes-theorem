@@ -11,4 +11,4 @@ This web app provides an interactive way to understand Bayes' Theorem, allowing 
 * Sass
 * create-react-app
 
-View the site at [url](https://url.com).
+View the site at [bayes-theorem.netlify.com](https://bayes-theorem.netlify.com).
