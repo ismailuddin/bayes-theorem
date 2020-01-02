@@ -70,16 +70,17 @@ export default class App extends Component {
                             <div className="column _50">
                                 <label htmlFor="fp">P(A)</label>
                                 <input
-                                    type="number" name="event_a" id="event_a" value={this.state.eventA}
-                                    onChange={(e) => this.handleChange(e, 'eventA')}
-                                    />
+                                    type="number" value={this.state.eventA}
+                                    disabled
+                                />
+                                <input type="range" step="0.01" min="0" max="1" onChange={(e) => this.handleChange(e, 'eventA')} value={this.state.eventA} className="slider slider-orange"/>
                             </div>
                             <div className="column _50">
                                 <label htmlFor="fp">P(¬A)</label>
                                 <input
                                     type="number" name="event_not_a" id="event_not_a" value={this.state.eventNotA}
                                     disabled
-                                    />
+                                />
                                 <small>
                                     The <b>¬</b> symbol in P(¬A) means the probability of A not happening.
                                 </small>
@@ -107,15 +108,17 @@ export default class App extends Component {
                                 <label htmlFor="fp">P(B|A)</label>
                                 <input
                                     type="number" name="event_b_a" id="event_b_a" value={this.state.eventBA}
-                                    onChange={(e) => this.handleChange(e, 'eventBA')}
-                                    />
+                                    disabled
+                                />
+                                <input type="range" step="0.01" min="0" max="1" onChange={(e) => this.handleChange(e, 'eventBA')} value={this.state.eventBA} className="slider slider-orange"/>
                             </div>
                             <div className="column _50">
                                 <label htmlFor="fp">P(B|¬A)</label>
                                 <input
                                     type="number" name="event_b_not_a" id="event_b_not_a" value={this.state.eventBNotA}
-                                    onChange={(e) => this.handleChange(e, 'eventBNotA')}
-                                    />
+                                    disabled
+                                />
+                                <input type="range" step="0.01" min="0" max="1" onChange={(e) => this.handleChange(e, 'eventBNotA')} value={this.state.eventBNotA} className="slider slider-red"/>
                             </div>
                         </div>
                         <p>
@@ -137,13 +140,15 @@ export default class App extends Component {
                         <p>
                             To use these newly provided probabilities, we must multiply them with our initial probabilities (the probability of <span className="eventA">event A</span> and of <span className="eventNotA">event ¬A</span>). This is in fact simply the area of the two shaded boxes. The combined area of those two boxes is the total probability of <span className="eventB">event B</span> occuring, or the <span className="eventB">evidence</span>.
                         </p>
-                        <MathJax.Context input='tex'>
-                            <div style={{fontSize: '1.6em'}}>
-                                <MathJax.Node>
-                                    {pB}
-                                </MathJax.Node>
-                            </div>
-                        </MathJax.Context>
+                        <div className="equation-box">
+                            <MathJax.Context input='tex'>
+                                <div style={{fontSize: '1.6em'}}>
+                                    <MathJax.Node>
+                                        {pB}
+                                    </MathJax.Node>
+                                </div>
+                            </MathJax.Context>
+                        </div>
                     </section>
                     <section>
                         <h1 className="heading">Step 3</h1>
@@ -173,6 +178,7 @@ export default class App extends Component {
                                     The value of P(A|B) is thus:
                                 </p>
                                 <div className="row">
+                                    <div className="column _33"></div>
                                     <div className="column _33">
                                         <div className="row">
                                             <div className="column equation equation-numerator">
@@ -192,7 +198,7 @@ export default class App extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="column _66">
+                                    <div className="column _33">
                                         <div className="column equation equation-rhs">
                                             <p>
                                                 = {(pAB * 100).toFixed(2)} %

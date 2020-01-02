@@ -58,7 +58,7 @@ export default class VisualEquation extends Component<Props, State> {
 			top: 35,
 			right: 35,
 			bottom: 35,
-			left: 85
+			left: 35
 		};
         this.canvas = React.createRef();
 		this.width = 850 - this.margin.left - this.margin.right;
@@ -123,8 +123,7 @@ export default class VisualEquation extends Component<Props, State> {
     buildChart = () => {
         this.svg = d3.select(this.canvas.current)
             .append('svg')
-            .attr('width', this.width + this.margin.left + this.margin.right)
-            .attr('height', this.height + this.margin.top + this.margin.bottom)
+            .attr("viewBox", `0, 0, ${this.width + this.margin.left + this.margin.right}, ${this.height + this.margin.top + this.margin.bottom}`)
             .append('g')
             .attr(
                 'transform',
@@ -206,7 +205,7 @@ export default class VisualEquation extends Component<Props, State> {
     render() {
         return (
             <div>
-                <div className="probabilityChart" ref={this.canvas}></div>
+                <div className="visualEquation" ref={this.canvas}></div>
             </div>
         )
     }

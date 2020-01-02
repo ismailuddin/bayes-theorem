@@ -130,8 +130,7 @@ export default class ProbabilityBox extends Component<Props, State> {
     buildChart = () => {
         this.svg = d3.select(this.canvas.current)
             .append('svg')
-            .attr('width', this.width + this.margin.left + this.margin.right)
-            .attr('height', this.height + this.margin.top + this.margin.bottom)
+            .attr("viewBox", `0, 0, ${this.width + this.margin.left + this.margin.right}, ${this.height + this.margin.top + this.margin.bottom}`)
             .append('g')
             .attr(
                 'transform',
@@ -147,25 +146,8 @@ export default class ProbabilityBox extends Component<Props, State> {
             .attr('width', this.width)
             .attr('height', this.height)
             .attr('fill', '#fefefe')
-        
-        // this.svg.append("text")             
-        //     .attr("transform", "rotate(-90)")
-        //     .attr("y", 0 - this.margin.left)
-        //     .attr("x", 0 - (this.height / 2))
-        //     .attr("dy", "1em")
-        //     .style("text-anchor", "middle")
-        //     .attr('class', 'yLabel')
-        //     .text("P(B | A)");
-        
-        // this.svg.append("text")             
-        //     .attr("transform", "rotate(-90)")
-        //     .attr("y", this.width + 5)
-        //     .attr("x", 0 - (this.height / 2))
-        //     .attr("dy", "1em")
-        //     .style("text-anchor", "middle")
-        //     .attr('class', 'yLabel')
-        //     .text("P(B | ¬ A)");
 
+        // Draw Y-axis labels
         this.svg.selectAll('.yLabel')
             .data(this.state.data)
             .enter()
@@ -176,6 +158,7 @@ export default class ProbabilityBox extends Component<Props, State> {
             .attr('y', (d: Datum, i: number) => -1 * this.margin.left / 2 + ( i * (this.width + this.margin.left + 10)))
             .text((d: Datum) => d.yLabel);
 
+        // Draw X-axis labels
         this.svg.selectAll('.xLabel')
             .data(this.state.data)
             .enter()
@@ -237,15 +220,11 @@ export default class ProbabilityBox extends Component<Props, State> {
             .attr('y', (d: Datum) => this.yScale(1 - d.y))
             .attr('width', (d: Datum) => this.xScale(d.x))
             .attr('height', (d: Datum) => this.height - this.yScale(1 - d.y));
-            // .attr('fill', (d: Datum) => '#6246ea')
-            // .attr('opacity', 0.75);
             
         fixedBars
             .transition(transition)
             .attr('x', (d: Datum) => this.xScale(d.x0))
-            // .attr('y', (d: Datum) => this.yScale(1 - d.y))
             .attr('width', (d: Datum) => this.xScale(d.x))
-            // .attr('height', (d: Datum) => this.height - this.yScale(1 - d.y))
             .attr('fill', (d: Datum) => d.colour);
 
         xLabels
