@@ -74,7 +74,7 @@ export default class VisualEquation extends Component<Props, State> {
     }
 
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.setState({
             data: [
                 {   x0: 0,
@@ -96,7 +96,7 @@ export default class VisualEquation extends Component<Props, State> {
         });
     }
 
-    componentDidUpdate(prevProps: Props, prevState: State) {
+    componentDidUpdate(prevProps: Props, prevState: State): void {
         if (this.props !== prevProps) {
             this.setState({
                 data: [
@@ -120,7 +120,7 @@ export default class VisualEquation extends Component<Props, State> {
         }
     }
 
-    buildChart = () => {
+    buildChart = (): void => {
         this.svg = d3.select(this.canvas.current)
             .append('svg')
             .attr("viewBox", `0, 0, ${this.width + this.margin.left + this.margin.right}, ${this.height + this.margin.top + this.margin.bottom}`)
@@ -171,7 +171,7 @@ export default class VisualEquation extends Component<Props, State> {
             .attr('fill', '#2a2a2a');
     }
 
-    updateChart = () => {
+    updateChart = (): void => {
         const transition: any = d3.transition()
             .ease(d3.easeBounceOut)
             .duration(1500);
@@ -198,8 +198,6 @@ export default class VisualEquation extends Component<Props, State> {
             .attr('y', (d: Datum) => this.yScale(1 - d.y))
             .attr('width', (d: Datum) => this.xScale(d.x))
             .attr('height', (d: Datum) => 0.4 * this.height - this.yScale(1 - d.y));
-            
-
     }
 
     render() {
